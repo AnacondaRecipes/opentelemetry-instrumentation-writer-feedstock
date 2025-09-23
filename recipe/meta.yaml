@@ -1,40 +1,38 @@
 {% set name = "opentelemetry-instrumentation-writer" %}
-{% set version = "0.47.3" %}
+{% set version = "0.47.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/opentelemetry_instrumentation_writer-{{ version }}.tar.gz
-  sha256: 3829e5d387b38098293d7acf7f04d47e3e84dce668590d17d7052dc5c5a38e23
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+  sha256: d636a2bcbce01316eddc7f83feafad1d60c7a8a27f402bf9b41f94cadada7752
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<310]
 
 requirements:
   host:
-    - python {{ python_min }}
-    - poetry-core
     - pip
+    - python
+    - poetry-core
   run:
-    - python >={{ python_min }}
+    - python
     - opentelemetry-api >=1.28.0,<2.0.0
     - opentelemetry-semantic-conventions >=0.50b0
     - opentelemetry-instrumentation >=0.50b0
-    - opentelemetry-semantic-conventions-ai >=0.4.12,<0.5
+    - opentelemetry-semantic-conventions-ai >=0.4.13,<0.5
+  run_constrained:
+    - writer-sdk >=2.2.1,<3.0.0
 
 test:
-  imports:
-    - opentelemetry.instrumentation.writer
   commands:
     - pip check
   requires:
     - pip
-    - python {{ python_min }}
-    - writer-sdk
 
 about:
   home: https://www.traceloop.com/openllmetry
@@ -42,8 +40,14 @@ about:
   doc_url: https://www.traceloop.com/docs/openllmetry/introduction
   summary: OpenTelemetry Writer instrumentation
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
+  description: |
+    This library allows tracing calls to any of Writer's endpoints sent with the official Writer Python Library.
 
 extra:
   recipe-maintainers:
     - timkpaine
+  skip-lints:
+    - invalid_url
+    - missing_imports_or_run_test_py
