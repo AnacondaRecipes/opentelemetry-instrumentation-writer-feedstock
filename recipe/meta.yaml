@@ -1,13 +1,13 @@
 {% set name = "opentelemetry-instrumentation-writer" %}
-{% set version = "0.57.0" %}
+{% set version = "0.62.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: 28a46091cfd9d88f2b05c10f21f5f858ed0cbe5643cb60cbbae3b2d72727b9a3
+  sha256: 6e61bf2a8aa0e3cc1b72798e44ada281cc72800fa12313750a8e94500bf3d958
 
 build:
   number: 0
@@ -22,9 +22,9 @@ requirements:
   run:
     - python
     - opentelemetry-api >=1.38.0,<2.0.0
-    - opentelemetry-semantic-conventions >=0.59b0
     - opentelemetry-instrumentation >=0.59b0
     - opentelemetry-semantic-conventions-ai >=0.5.1,<0.6.0
+    - opentelemetry-semantic-conventions >=0.63b1
   run_constrained:
     - writer-sdk >=2.3.0,<3.0.0
 
